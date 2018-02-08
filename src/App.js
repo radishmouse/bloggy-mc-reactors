@@ -5,6 +5,7 @@ import './App.css';
 import { API } from './config';
 import BlogList from './BlogList';
 import BlogViewer from './BlogViewer';
+import BlogEditor from './BlogEditor';
 
 class App extends Component {
   constructor(props) {
@@ -12,7 +13,8 @@ class App extends Component {
 
     this.state = {
       posts: [],
-      currentIndex: -1
+      currentIndex: -1,
+      isEditing: false
     };
   }
 
@@ -23,17 +25,28 @@ class App extends Component {
       .then(blogPosts => {
         this.setState({
           posts: blogPosts,
-          currentIndex: 0
+          currentIndex: 0,
+          isEditing: false
         });
       })
   }
 
   render() {
 
-    const viewer = this.state.currentIndex !== -1 ?
-                        <BlogViewer blog={this.state.posts[this.state.currentIndex]} />
-                        : null;
-
+    let viewer = null;
+    if (this.state.currentIndex !== -1) {
+      let currentPost = this.state.posts[this.state.currentIndex];
+      if (this.state.isEditing) {
+        viewer = (<BlogEditor
+                    blog={currentPost}
+                  />);
+      } else {
+        viewer = (<BlogViewer
+                    blog={currentPost}
+                    clickHandler={this._setEditing}
+                  />);
+      }
+    }
 
     return (
       <div className="App">
@@ -47,6 +60,14 @@ class App extends Component {
         {viewer}
       </div>
     );
+  }
+
+  _setEditing = () => {
+    this.setState({
+      isEditing: true
+    }, () => {
+      console.log('setting edting to true');
+    });
   }
 }
 
