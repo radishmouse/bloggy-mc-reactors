@@ -39,6 +39,8 @@ class App extends Component {
       if (this.state.isEditing) {
         viewer = (<BlogEditor
                     blog={currentPost}
+                    changeHandler={this._saveContent}
+                    clickHandler={this._setEditing}
                   />);
       } else {
         viewer = (<BlogViewer
@@ -56,19 +58,45 @@ class App extends Component {
         </header>
         <BlogList
           blogPosts={this.state.posts}
+          clickHandler={this._setIndex}
         />
         {viewer}
       </div>
     );
   }
 
-  _setEditing = () => {
+  _setIndex = (i) => {
     this.setState({
-      isEditing: true
+      currentIndex: i
+    })
+  }
+
+  _setEditing = (v) => {
+    this.setState({
+      isEditing: v
     }, () => {
       console.log('setting edting to true');
     });
   }
+
+  _saveContent = (newContent) => {
+    const updatedPosts = this.state.posts.map( (p, i) => {
+      if (i === this.state.currentIndex) {
+        return {
+          ...p, // all the existing key/value pairs
+          content: newContent // overwriting the `content` key
+        }
+      } else {
+        return p;
+      }
+    });
+    this.setState({
+      posts: updatedPosts
+    }, () => {
+      console.log(`updated content for ${this.state.currentIndex}`)
+    });
+  }
+
 }
 
 export default App;

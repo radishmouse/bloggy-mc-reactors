@@ -10,7 +10,7 @@ const BlogViewer = (props) => {
       <div>
         {props.blog.content}
       </div>
-      <button onClick={props.clickHandler}>Edit</button>
+      <button onClick={ () => props.clickHandler(true) }>Edit</button>
     </React.Fragment>
   );
 };

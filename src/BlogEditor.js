@@ -7,9 +7,12 @@ const BlogEditor = (props) => {
       <p>
         {props.blog.createdAt}
       </p>
-      <textarea value={props.blog.content} />
-      <button>Save</button>
-    </React.Fragment>
+      <textarea
+        value={props.blog.content}
+        onChange={(e) => props.changeHandler(e.target.value) }
+        />
+      <button onClick={ () => props.clickHandler(false) }>Save</button>
+      </React.Fragment>
   );
 };
 
