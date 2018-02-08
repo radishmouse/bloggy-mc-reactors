@@ -4,13 +4,15 @@ import './App.css';
 
 import { API } from './config';
 import BlogList from './BlogList';
+import BlogViewer from './BlogViewer';
 
 class App extends Component {
   constructor(props) {
     super(props);
 
     this.state = {
-      posts: []
+      posts: [],
+      currentIndex: -1
     };
   }
 
@@ -20,12 +22,19 @@ class App extends Component {
       .then(response => response.json())
       .then(blogPosts => {
         this.setState({
-          posts: blogPosts
+          posts: blogPosts,
+          currentIndex: 0
         });
       })
   }
 
   render() {
+
+    const viewer = this.state.currentIndex !== -1 ?
+                        <BlogViewer blog={this.state.posts[this.state.currentIndex]} />
+                        : null;
+
+
     return (
       <div className="App">
         <header className="App-header">
@@ -35,6 +44,7 @@ class App extends Component {
         <BlogList
           blogPosts={this.state.posts}
         />
+        {viewer}
       </div>
     );
   }
