@@ -1,19 +1,43 @@
 import React from 'react';
 
-const BlogEditor = (props) => {
-  return (
-    <React.Fragment>
-      <h1>{props.blog.title}</h1>
-      <p>
-        {props.blog.createdAt}
-      </p>
-      <textarea
-        value={props.blog.content}
-        onChange={(e) => props.changeHandler(e.target.value) }
-        />
-      <button onClick={ () => props.clickHandler(false) }>Save</button>
-      </React.Fragment>
-  );
+
+
+class BlogEditor extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      content: props.blog.content
+    }
+  }
+
+  render() {
+    return (
+      <React.Fragment>
+        <h1>{this.props.blog.title}</h1>
+        <p>
+          {this.props.blog.createdAt}
+        </p>
+        <textarea
+          value={this.state.content}
+          onChange={(e) => this._handleChange(e.target.value) }
+          />
+        <button onClick={this._commitChanges}>Save</button>
+        </React.Fragment>
+    );
+  }
+
+  _commitChanges = () => {
+    this.props.clickHandler(false);
+    this.props.changeHandler(this.state.content);
+  }
+
+  _handleChange = (newContent) => {
+    this.setState({
+      content: newContent
+    }, () => {
+      console.log('updated content locally')
+    })
+  }
 };
 
 export default BlogEditor;
