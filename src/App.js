@@ -16,7 +16,6 @@ class App extends Component {
 
   componentDidMount() {
     // here, I can call this.setState for the blog posts!
-    debugger;
     fetch(`${API}/blog`)
       .then(response => response.json())
       .then(blogPosts => {
@@ -31,7 +30,7 @@ class App extends Component {
       <div className="App">
         <header className="App-header">
           <img src={logo} className="App-logo" alt="logo" />
-          <h1 className="App-title">Welcome to React</h1>
+          <h1 className="App-title">Welcome to my blog!</h1>
         </header>
         <BlogList
           blogPosts={this.state.posts}

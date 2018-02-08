@@ -1,9 +1,11 @@
 import React from 'react';
 
 const BlogList = (props) => {
-  const listItems = props.blogPosts.map( (d, i) => {
+  const listItems = props.blogPosts.map( (d) => {
     return (
-      <li>{d.title}</li>
+      <li key={d.id}>
+        {d.title}
+      </li>
     );
   })
 
