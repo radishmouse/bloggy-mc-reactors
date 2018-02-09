@@ -63,6 +63,8 @@ class App extends Component {
                                               }} />
 
           <Route path="/posts/:postId/edit" render={({match, history}) => {
+            // In addition to the `match` prop, each Route component
+            // will receive a `history` prop. You can use it to manually transition to another path.
             let postId = match.params.postId;
             postId = parseInt(postId, 10);
 
@@ -71,6 +73,8 @@ class App extends Component {
                                                     blog={blogPost}
                                                     changeHandler={this._saveContent}
                                                     finishEditing={() => {
+                                                      // Here's how you use the history object
+                                                      // to go to another path.
                                                       history.push(`/posts/${blogPost.id}`);
                                                     }}
                                                   />
