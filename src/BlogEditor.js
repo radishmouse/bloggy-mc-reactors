@@ -1,4 +1,5 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
 
 
 // The BlogEditor component should show the content of a blog post in a textarea.
@@ -26,6 +27,10 @@ class BlogEditor extends React.Component {
           onChange={(e) => this._handleChange(e.target.value) }
           />
         <button onClick={this._commitChanges}>Save</button>
+        <Link to={`/posts/${this.props.blog.id}`}>
+          <button>Cancel</button>
+        </Link>
+
         </React.Fragment>
     );
   }

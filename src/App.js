@@ -83,13 +83,27 @@ class App extends Component {
             blogPosts={this.state.posts}
             clickHandler={this._setIndex}
           />
-          <Route path="/posts/:postId" render={({ match }) => {
+          <Route exact path="/posts/:postId" render={({ match }) => {
             let postId = match.params.postId;
             postId = parseInt(postId, 10);
 
             const blogPost = this.state.posts.find(p => p.id === postId);
             return this.state.posts.length > 0 ? <BlogViewer blog={blogPost} />
                                                : null;
+                                              }} />
+
+          <Route path="/posts/:postId/edit" render={({match}) => {
+            let postId = match.params.postId;
+            postId = parseInt(postId, 10);
+
+            const blogPost = this.state.posts.find(p => p.id === postId);
+            return this.state.posts.length > 0 ? <BlogEditor
+                                                    blog={blogPost}
+                                                    changeHandler={this._saveContent}
+                                                    clickHandler={this._setEditing}
+                                                  />
+                                                : null;
+
           }} />
         </div>
       </Router>

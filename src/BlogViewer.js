@@ -1,5 +1,5 @@
 import React from 'react';
-
+import { Link } from 'react-router-dom';
 const BlogViewer = ({
   blog,
   clickHandler
@@ -17,7 +17,11 @@ const BlogViewer = ({
       <div>
         {blog.content}
       </div>
-      <button onClick={ () => clickHandler(true) }>Edit</button>
+      <button>
+        <Link to={`/posts/${blog.id}/edit`}>
+          Edit
+        </Link>
+      </button>
     </React.Fragment>
   );
 };
