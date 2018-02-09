@@ -1,4 +1,7 @@
 import React from 'react';
+import {
+  Link
+} from 'react-router-dom';
 
 const BlogList = ({
   blogPosts=[],
@@ -12,9 +15,10 @@ const BlogList = ({
     return (
       <li
         key={d.id}
-        onClick={ () => clickHandler(i) }
       >
-        {d.title}
+        <Link to={`/posts/${d.id}`}>
+          {d.title}
+        </Link>
       </li>
     );
   })

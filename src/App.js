@@ -2,8 +2,14 @@ import React, { Component } from 'react';
 import logo from './logo.svg';
 import './App.css';
 
-import { API } from './config';
 import axios from 'axios';
+import {
+  BrowserRouter as Router,
+  Route
+} from 'react-router-dom' ;
+
+
+import { API } from './config';
 import BlogList from './BlogList';
 import BlogViewer from './BlogViewer';
 import BlogEditor from './BlogEditor';
@@ -67,17 +73,26 @@ class App extends Component {
     }
 
     return (
-      <div className="App">
-        <header className="App-header">
-          <img src={logo} className="App-logo" alt="logo" />
-          <h1 className="App-title">Welcome to my blog!</h1>
-        </header>
-        <BlogList
-          blogPosts={this.state.posts}
-          clickHandler={this._setIndex}
-        />
-        {viewer}
-      </div>
+      <Router>
+        <div className="App">
+          <header className="App-header">
+            <img src={logo} className="App-logo" alt="logo" />
+            <h1 className="App-title">Welcome to my blog!</h1>
+          </header>
+          <BlogList
+            blogPosts={this.state.posts}
+            clickHandler={this._setIndex}
+          />
+          <Route path="/posts/:postId" render={({ match }) => {
+            let postId = match.params.postId;
+            postId = parseInt(postId, 10);
+
+            const blogPost = this.state.posts.find(p => p.id === postId);
+            return this.state.posts.length > 0 ? <BlogViewer blog={blogPost} />
+                                               : null;
+          }} />
+        </div>
+      </Router>
     );
   }
 
