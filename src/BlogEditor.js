@@ -1,16 +1,20 @@
 import React from 'react';
 
 
-
+// The BlogEditor component should show the content of a blog post in a textarea.
 class BlogEditor extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
+      // We copy the blog post content into state.
       content: props.blog.content
     }
   }
 
   render() {
+    // Here's an example of using a React.Fragment component.
+    // It's basically a way to avoid having to wrap an extra `<div>`
+    // around your elements.
     return (
       <React.Fragment>
         <h1>{this.props.blog.title}</h1>
@@ -26,11 +30,8 @@ class BlogEditor extends React.Component {
     );
   }
 
-  _commitChanges = () => {
-    this.props.clickHandler(false);
-    this.props.changeHandler(this.state.content);
-  }
-
+  // As the user types in the textarea, we capture those changes
+  // in state.
   _handleChange = (newContent) => {
     this.setState({
       content: newContent
@@ -38,6 +39,14 @@ class BlogEditor extends React.Component {
       console.log('updated content locally')
     })
   }
+
+  // When the user clicks the "Save" button, we push those
+  // changes out to the parent.
+  _commitChanges = () => {
+    this.props.clickHandler(false);
+    this.props.changeHandler(this.state.content);
+  }
+
 };
 
 export default BlogEditor;
