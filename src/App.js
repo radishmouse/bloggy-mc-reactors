@@ -42,36 +42,6 @@ class App extends Component {
   }
 
   render() {
-
-    // We need to render either a blog viewer or a blog editor.
-    // That will depend on whether `this.state.currentIndex` has a real value.
-
-    // Start with a variable that will hold our component.
-    // By default, we set it to null.
-    let viewer = null;
-    if (this.state.currentIndex !== -1) { // Check if the currentIndex is a real value.
-
-      // Create a short variable name to refer to the current blog post to be viewed.
-      let currentPost = this.state.posts[this.state.currentIndex];
-
-      // See if we're trying to edit or just view the blog post.
-      if (this.state.isEditing) {
-
-        // If we're editing, then use the `BlogEditor` component
-        viewer = (<BlogEditor
-                    blog={currentPost}
-                    changeHandler={this._saveContent}
-                    clickHandler={this._setEditing}
-                  />);
-      } else {
-        // If we're not editing, just use the `BlogViewer` component
-        viewer = (<BlogViewer
-                    blog={currentPost}
-                    clickHandler={this._setEditing}
-                  />);
-      }
-    }
-
     return (
       <Router>
         <div className="App">
