@@ -48,8 +48,10 @@ class BlogEditor extends React.Component {
   // When the user clicks the "Save" button, we push those
   // changes out to the parent.
   _commitChanges = () => {
-    this.props.clickHandler(false);
-    this.props.changeHandler(this.state.content);
+    // this.props.clickHandler(false);
+    this.props.changeHandler(this.state.content, this.props.blog.id);
+    this.props.finishEditing();
+    // this.props.history.push(`/posts/${this.props.blog.id}`);
   }
 
 };

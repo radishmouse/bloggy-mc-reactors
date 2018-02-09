@@ -62,7 +62,7 @@ class App extends Component {
                                                : null;
                                               }} />
 
-          <Route path="/posts/:postId/edit" render={({match}) => {
+          <Route path="/posts/:postId/edit" render={({match, history}) => {
             let postId = match.params.postId;
             postId = parseInt(postId, 10);
 
@@ -70,7 +70,9 @@ class App extends Component {
             return this.state.posts.length > 0 ? <BlogEditor
                                                     blog={blogPost}
                                                     changeHandler={this._saveContent}
-                                                    clickHandler={this._setEditing}
+                                                    finishEditing={() => {
+                                                      history.push(`/posts/${blogPost.id}`);
+                                                    }}
                                                   />
                                                 : null;
 
@@ -88,21 +90,21 @@ class App extends Component {
   }
 
   // `this.state.isEditing` is how we know whether to render the blog viewer or blog editor.
-  _setEditing = (v) => {
-    this.setState({
-      isEditing: v
-    }, () => {
-      console.log('setting edting to true');
-    });
-  }
+  // _setEditing = (v) => {
+  //   this.setState({
+  //     isEditing: v
+  //   }, () => {
+  //     console.log('setting edting to true');
+  //   });
+  // }
 
-  _saveContent = (newContent) => {
+  _saveContent = (newContent, postId) => {
     // We will update both the backend and our local state.
     // First, we update the backend using an Ajax request.
     // Once we get confirmation that the backend has committed the changes,
     // we will update the local state.
 
-    const currentPost = this.state.posts[this.state.currentIndex];
+    const currentPost = this.state.posts.find(p => p.id === postId);
     // send a POST request to update a specific blog post
     axios.post(`${API}/blog/${currentPost.id}/edit`, {
       ...currentPost,       // include all the key/value pairs from `currentPost`
@@ -117,9 +119,9 @@ class App extends Component {
       // and an updated version of the modified post.
 
       // To make a new array, we map through our existing array of blog posts...
-      const updatedPosts = this.state.posts.map( (p, i) => {
+      const updatedPosts = this.state.posts.map( (p) => {
         // as we iterate, check if we're on the one that was being edited.
-        if (i === this.state.currentIndex) {
+        if (p.id === postId) {
           // If so, we return the version from the server.
           return result;
         } else {
