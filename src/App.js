@@ -118,7 +118,7 @@ class App extends Component {
       // and an updated version of the modified post.
 
       // To make a new array, we map through our existing array of blog posts...
-      const updatedPosts = this.state.posts.map( (p, i) => {
+      const posts = this.state.posts.map( (p, i) => {
         // as we iterate, check if we're on the one that was being edited.
         if (i === this.state.currentIndex) {
           // If so, we return the version from the server.
@@ -130,10 +130,12 @@ class App extends Component {
       });
 
       // Then, we call `setState`, setting our posts to the `updatedPosts` array.
+      // Enhanced Object Literal syntax!
+      // When the key and the value are the same word,
+      // you can omit the colon and the value.
       this.setState({
-        posts: updatedPosts
-      }, () => {
-        console.log(`updated content for ${this.state.currentIndex}`)
+        // posts: posts
+        posts,
       });
     })
 
